@@ -6,9 +6,11 @@ const app = express()
 app.use(bodyParser.json())
 app.use(cors())
 
-const posts = []
+    const posts = {}
 
 app.get('/posts',(req, res) => {
+    console.log("Posts: ",posts);
+
     res.send(posts);
 })
 
@@ -18,12 +20,14 @@ app.post('/events', (req, res) => {
     if (type === 'PostCreated'){
         const {id, title} = data;
         posts[id] = {id, title, comments: []}
+        console.log(posts[id]);
+
     }
     else if (type === 'CommentCreated'){
         const {id, content, postId} = data;
         const post = posts[postId];
         post.comments.push({id,content}); 
-        //console.log(posts[postId]);
+        console.log(posts[postId]);
     }
     res.send({});
 })
