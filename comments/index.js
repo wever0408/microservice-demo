@@ -30,7 +30,7 @@ app.post("/posts/:id/comments", (req, res) => {
       data: {
         id: commentId,
         content,
-        status,
+        status: 'pending',
         postId: req.params.id,
       },
     })
@@ -46,7 +46,7 @@ app.post("/events", async (req, res) => {
 
   const { type, data } = req.body;
   if (type === "CommentModerated") {
-    const { id, content, postId } = data;
+    const { id, postId, status } = data;
     const comments = commentsByPostId[postId];
     const comment = comments.find((comment) => {
       return comment.id === id;
